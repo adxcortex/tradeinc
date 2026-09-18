@@ -23,6 +23,7 @@ export type UserProgressStats = {
   notStarted: number;
   percentDone: number;
   currentStreak: number;
+  lastActivityAt: Date | null;
   phases: PhaseBreakdown[];
 };
 
@@ -43,9 +44,7 @@ function computeStreak(completedDates: Date[]): number {
   return streak;
 }
 
-export async function getUserProgressStats(userId: string): Promise<UserProgressStats> {
-  await connectToDatabase();
-  const records = await Progress.find({ userId }).lean();
+function summarizeProgress(userId: string, records: { slug: string; status?: string; completedAt?: Date | null }[]): UserProgressStats {
   const bySlug = new Map(records.map((r) => [r.slug, r]));
 
   let done = 0;
@@ -70,6 +69,9 @@ export async function getUserProgressStats(userId: string): Promise<UserProgress
   }
 
   const completedDates = records.filter((r) => r.completedAt).map((r) => new Date(r.completedAt as Date));
+  const lastActivityAt = completedDates.length
+    ? new Date(Math.max(...completedDates.map((d) => d.getTime())))
+    : null;
 
   const totalItems = CURRICULUM.length;
   return {
@@ -80,8 +82,35 @@ export async function getUserProgressStats(userId: string): Promise<UserProgress
     notStarted: totalItems - done - inProgress,
     percentDone: totalItems ? Math.round((done / totalItems) * 100) : 0,
     currentStreak: computeStreak(completedDates),
+    lastActivityAt,
     phases: Array.from(phaseMap.values()),
   };
+}
+
+/** One query for every user's progress, instead of one query per user. */
+export async function getAllProgressStats(userIds: string[]): Promise<Map<string, UserProgressStats>> {
+  await connectToDatabase();
+  const records = await Progress.find({ userId: { $in: userIds } })
+    .select("userId slug status completedAt")
+    .lean();
+
+  const byUser = new Map<string, typeof records>();
+  for (const id of userIds) byUser.set(id, []);
+  for (const r of records) {
+    const key = String(r.userId);
+    byUser.get(key)?.push(r);
+  }
+
+  const result = new Map<string, UserProgressStats>();
+  for (const id of userIds) {
+    result.set(id, summarizeProgress(id, byUser.get(id) || []));
+  }
+  return result;
+}
+
+export async function getUserProgressStats(userId: string): Promise<UserProgressStats> {
+  const map = await getAllProgressStats([userId]);
+  return map.get(userId)!;
 }
 
 export type TradeStats = {
@@ -96,12 +125,7 @@ export type TradeStats = {
   profitFactor: number | null;
 };
 
-export async function getUserTradeStats(userId: string): Promise<TradeStats> {
-  await connectToDatabase();
-  const trades = await TradeLog.find({ userId, result: { $in: ["win", "loss"] } })
-    .select("result rMultiple")
-    .lean();
-
+function summarizeTrades(userId: string, trades: { result: string; rMultiple?: number | null }[]): TradeStats {
   const wins = trades.filter((t) => t.result === "win");
   const losses = trades.filter((t) => t.result === "loss");
 
@@ -128,6 +152,32 @@ export async function getUserTradeStats(userId: string): Promise<TradeStats> {
     expectancy: Math.round(expectancy * 100) / 100,
     profitFactor: grossLoss > 0 ? Math.round((grossWin / grossLoss) * 100) / 100 : null,
   };
+}
+
+/** One query for every user's trades, instead of one query per user. */
+export async function getAllTradeStats(userIds: string[]): Promise<Map<string, TradeStats>> {
+  await connectToDatabase();
+  const trades = await TradeLog.find({ userId: { $in: userIds }, result: { $in: ["win", "loss"] } })
+    .select("userId result rMultiple")
+    .lean();
+
+  const byUser = new Map<string, typeof trades>();
+  for (const id of userIds) byUser.set(id, []);
+  for (const t of trades) {
+    const key = String(t.userId);
+    byUser.get(key)?.push(t);
+  }
+
+  const result = new Map<string, TradeStats>();
+  for (const id of userIds) {
+    result.set(id, summarizeTrades(id, byUser.get(id) || []));
+  }
+  return result;
+}
+
+export async function getUserTradeStats(userId: string): Promise<TradeStats> {
+  const map = await getAllTradeStats([userId]);
+  return map.get(userId)!;
 }
 
 export { CURRICULUM, PHASES };

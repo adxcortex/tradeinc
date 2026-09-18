@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { Plus, Loader2 } from "lucide-react";
 import { addTrade, type TradeFormState } from "@/lib/actions/trades";
 
 const inputClass =
@@ -87,8 +88,9 @@ export function TradeForm() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
         >
+          {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Plus className="h-4 w-4" aria-hidden />}
           {pending ? "Saving..." : "Add trade"}
         </button>
       </div>

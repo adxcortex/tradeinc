@@ -1,4 +1,14 @@
+import { Clock3, Target, XCircle, GraduationCap, BookMarked, X } from "lucide-react";
 import { DONT_LEARN_FIRST, RESOURCES } from "@/lib/curriculum";
+
+function SectionHeading({ icon: Icon, children }: { icon: typeof Clock3; children: React.ReactNode }) {
+  return (
+    <h2 className="flex items-center gap-1.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+      <Icon className="h-4 w-4 text-zinc-400 dark:text-zinc-500" aria-hidden />
+      {children}
+    </h2>
+  );
+}
 
 export default function PlaybookPage() {
   return (
@@ -11,7 +21,7 @@ export default function PlaybookPage() {
       </div>
 
       <section>
-        <h2 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Daily workflow (Months 4+)</h2>
+        <SectionHeading icon={Clock3}>Daily workflow (Months 4+)</SectionHeading>
         <ol className="mt-2 flex flex-col gap-1.5 text-sm text-zinc-700 dark:text-zinc-300">
           <li>07:30 — Market/news preparation</li>
           <li>08:30 — Watchlist</li>
@@ -22,7 +32,7 @@ export default function PlaybookPage() {
       </section>
 
       <section>
-        <h2 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Target correction</h2>
+        <SectionHeading icon={Target}>Target correction</SectionHeading>
         <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
           Don&apos;t aim for &ldquo;I want ₹X every day.&rdquo; Aim for &ldquo;positive expectancy over 100+ trades
           while keeping drawdown controlled.&rdquo; Markets don&apos;t pay a salary every day — the goal is positive
@@ -31,11 +41,11 @@ export default function PlaybookPage() {
       </section>
 
       <section>
-        <h2 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Don&apos;t learn this in the first 90 days</h2>
+        <SectionHeading icon={XCircle}>Don&apos;t learn this in the first 90 days</SectionHeading>
         <ul className="mt-2 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
           {DONT_LEARN_FIRST.map((item) => (
             <li key={item} className="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300">
-              <span className="text-[var(--status-critical)]">&times;</span>
+              <X className="h-3.5 w-3.5 shrink-0 text-[var(--status-critical)]" aria-hidden />
               {item}
             </li>
           ))}
@@ -48,7 +58,7 @@ export default function PlaybookPage() {
       </section>
 
       <section>
-        <h2 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">What to learn once the foundation is solid</h2>
+        <SectionHeading icon={GraduationCap}>What to learn once the foundation is solid</SectionHeading>
         <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
           See the &ldquo;What to learn next&rdquo; item in Phase 9 of the curriculum for the full technical,
           fundamental and quantitative reading list, plus the automation idea (NSE data -&gt; Python -&gt; scanner
@@ -57,7 +67,7 @@ export default function PlaybookPage() {
       </section>
 
       <section>
-        <h2 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">Recommended starting resources</h2>
+        <SectionHeading icon={BookMarked}>Recommended starting resources</SectionHeading>
         <ul className="mt-2 flex flex-col gap-2">
           {RESOURCES.map((r) => (
             <li key={r.name} className="rounded-xl border border-zinc-200 p-3 text-sm dark:border-zinc-800">

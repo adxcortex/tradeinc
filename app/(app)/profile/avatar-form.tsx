@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useState, useTransition } from "react";
+import { Trash2, Loader2, UploadCloud } from "lucide-react";
 import { updateAvatar, removeAvatar, type ProfileFormState } from "@/lib/actions/profile";
 import { seriesVar } from "@/lib/colors";
 
@@ -59,8 +60,9 @@ export function AvatarForm({
           <button
             type="submit"
             disabled={pending}
-            className="w-fit rounded-lg border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-60 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
+            className="inline-flex w-fit items-center gap-1.5 rounded-lg border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-60 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-900"
           >
+            {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : <UploadCloud className="h-3.5 w-3.5" aria-hidden />}
             {pending ? "Uploading..." : "Upload"}
           </button>
           {avatarDataUrl && (
@@ -72,8 +74,9 @@ export function AvatarForm({
                 if (inputRef.current) inputRef.current.value = "";
                 startRemove(() => removeAvatar());
               }}
-              className="text-xs text-zinc-400 hover:text-red-600 disabled:opacity-60 dark:hover:text-red-400"
+              className="inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-red-600 disabled:opacity-60 dark:hover:text-red-400"
             >
+              <Trash2 className="h-3.5 w-3.5" aria-hidden />
               Remove
             </button>
           )}

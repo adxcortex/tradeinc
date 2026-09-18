@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { Loader2, Save, Check } from "lucide-react";
 import { saveNote } from "@/lib/actions/progress";
 
 type State = { saved: boolean };
@@ -26,11 +27,17 @@ export function NoteEditor({ slug, initialNote }: { slug: string; initialNote: s
         <button
           type="submit"
           disabled={pending}
-          className="w-fit rounded-lg bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+          className="inline-flex w-fit items-center gap-1.5 rounded-lg bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
         >
+          {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : <Save className="h-3.5 w-3.5" aria-hidden />}
           {pending ? "Saving..." : "Save note"}
         </button>
-        {state.saved && !pending && <span className="text-xs text-zinc-500 dark:text-zinc-400">Saved.</span>}
+        {state.saved && !pending && (
+          <span className="inline-flex items-center gap-1 text-xs text-[var(--status-good)]">
+            <Check className="h-3.5 w-3.5" aria-hidden />
+            Saved
+          </span>
+        )}
       </div>
     </form>
   );
