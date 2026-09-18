@@ -3,6 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Categorical series slots — one per user, fixed order, never cycled. */
+  --series-1: #2a78d6; /* blue */
+  --series-2: #eb6834; /* orange */
+  --series-3: #1baf7a; /* aqua */
+  --series-4: #eda100; /* yellow */
+
+  --status-good: #1baf7a;
+  --status-warning: #eda100;
+  --status-critical: #e34948;
 }
 
 @theme inline {
@@ -16,6 +26,15 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+
+    --status-good: #199e70;
+    --status-warning: #c98500;
+    --status-critical: #e66767;
   }
 }
 
