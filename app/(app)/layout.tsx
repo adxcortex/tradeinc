@@ -1,16 +1,9 @@
 import Link from "next/link";
-import { LayoutDashboard, BookOpen, NotebookText, Compass, LogOut, TrendingUp } from "lucide-react";
+import { LogOut, TrendingUp } from "lucide-react";
 import { getCurrentUser } from "@/lib/dal";
 import { logout } from "@/lib/actions/auth";
 import { seriesVar } from "@/lib/colors";
-import { SidebarNavLink, TabBarNavLink } from "./nav-link";
-
-const NAV = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/curriculum", label: "Curriculum", icon: BookOpen },
-  { href: "/journal", label: "Journal", icon: NotebookText },
-  { href: "/playbook", label: "Playbook", icon: Compass },
-];
+import { SidebarNav, TabBarNav } from "./nav-link";
 
 function Avatar({ name, colorSlot, avatarDataUrl, className = "h-8 w-8 text-sm" }: { name: string; colorSlot: number; avatarDataUrl: string | null; className?: string }) {
   return (
@@ -46,11 +39,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </span>
         </Link>
 
-        <nav className="mt-6 flex flex-1 flex-col gap-1">
-          {NAV.map((item) => (
-            <SidebarNavLink key={item.href} {...item} />
-          ))}
-        </nav>
+        <SidebarNav />
 
         <div className="flex flex-col gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-800">
           <Link
@@ -97,11 +86,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       </header>
 
       {/* Mobile bottom tab bar */}
-      <nav className="fixed inset-x-0 bottom-0 z-20 flex items-stretch gap-1 border-t border-zinc-200 bg-white/95 px-2 py-1.5 backdrop-blur md:hidden dark:border-zinc-800 dark:bg-zinc-950/95">
-        {NAV.map((item) => (
-          <TabBarNavLink key={item.href} {...item} />
-        ))}
-      </nav>
+      <TabBarNav />
 
       <div className="flex w-full flex-1 flex-col md:pl-60">
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-24 pt-16 sm:px-6 md:pb-8 md:pt-8">{children}</main>
