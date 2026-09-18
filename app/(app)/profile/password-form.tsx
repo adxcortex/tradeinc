@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { KeyRound } from "lucide-react";
 import { changePassword, type ProfileFormState } from "@/lib/actions/profile";
 import { SubmitButton } from "../components/submit-button";
+import { PasswordInput } from "@/app/components/password-input";
 
 const inputClass =
   "mt-1 w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-900 dark:border-zinc-700 dark:focus:border-zinc-300";
@@ -16,12 +17,16 @@ export function PasswordForm() {
     <form action={action} key={state?.success ? "reset" : "form"} className="flex flex-col gap-3">
       <div>
         <label className={labelClass}>Current password</label>
-        <input type="password" name="currentPassword" autoComplete="current-password" required className={inputClass} />
+        <PasswordInput
+          name="currentPassword"
+          autoComplete="current-password"
+          required
+          className={inputClass}
+        />
       </div>
       <div>
         <label className={labelClass}>New password</label>
-        <input
-          type="password"
+        <PasswordInput
           name="newPassword"
           autoComplete="new-password"
           minLength={8}
@@ -31,8 +36,7 @@ export function PasswordForm() {
       </div>
       <div>
         <label className={labelClass}>Confirm new password</label>
-        <input
-          type="password"
+        <PasswordInput
           name="confirmPassword"
           autoComplete="new-password"
           minLength={8}

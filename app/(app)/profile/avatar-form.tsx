@@ -22,7 +22,7 @@ export function AvatarForm({
   const shown = preview ?? avatarDataUrl;
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-5">
       <div
         className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full text-xl font-semibold text-white"
         style={{ backgroundColor: seriesVar(colorSlot) }}
@@ -37,7 +37,7 @@ export function AvatarForm({
 
       <form
         action={action}
-        className="flex flex-col gap-2"
+        className="flex w-full flex-col items-center gap-2 sm:w-auto sm:items-start"
         onSubmit={() => {
           // Keep the picked preview until the server confirms or errors.
         }}
@@ -54,7 +54,7 @@ export function AvatarForm({
             reader.onload = () => setPreview(String(reader.result));
             reader.readAsDataURL(file);
           }}
-          className="text-xs text-zinc-600 file:mr-3 file:rounded-lg file:border-0 file:bg-zinc-900 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-zinc-700 dark:text-zinc-400 dark:file:bg-zinc-100 dark:file:text-zinc-900 dark:hover:file:bg-white"
+          className="w-full max-w-full text-xs text-zinc-600 file:mr-3 file:rounded-lg file:border-0 file:bg-zinc-900 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-zinc-700 dark:text-zinc-400 dark:file:bg-zinc-100 dark:file:text-zinc-900 dark:hover:file:bg-white"
         />
         <div className="flex items-center gap-3">
           <button

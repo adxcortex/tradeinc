@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { Loader2, LogIn } from "lucide-react";
 import { login } from "@/lib/actions/auth";
+import { PasswordInput } from "@/app/components/password-input";
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined);
@@ -25,10 +26,9 @@ export default function LoginForm() {
         <label htmlFor="password" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Password
         </label>
-        <input
+        <PasswordInput
           id="password"
           name="password"
-          type="password"
           autoComplete="current-password"
           required
           className="mt-1 w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-900 dark:border-zinc-700 dark:focus:border-zinc-300"

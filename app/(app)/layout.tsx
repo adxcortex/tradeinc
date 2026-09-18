@@ -61,8 +61,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </div>
       </aside>
 
-      {/* Mobile top bar */}
-      <header className="fixed inset-x-0 top-0 z-20 flex items-center justify-between border-b border-zinc-200 bg-white/90 px-4 py-2.5 backdrop-blur md:hidden dark:border-zinc-800 dark:bg-zinc-950/90">
+      {/* Mobile top bar — height and top padding account for the iOS notch/status bar via env(safe-area-inset-top) */}
+      <header className="fixed inset-x-0 top-0 z-20 flex h-[calc(3.5rem+env(safe-area-inset-top))] items-center justify-between border-b border-zinc-200 bg-white/90 px-4 pt-[env(safe-area-inset-top)] backdrop-blur md:hidden dark:border-zinc-800 dark:bg-zinc-950/90">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">
             <TrendingUp className="h-4 w-4" strokeWidth={2.4} />
@@ -89,7 +89,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <TabBarNav />
 
       <div className="flex w-full flex-1 flex-col md:pl-60">
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-24 pt-16 sm:px-6 md:pb-8 md:pt-8">{children}</main>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-[calc(3.5rem+env(safe-area-inset-top))] pb-[calc(6rem+env(safe-area-inset-bottom))] sm:px-6 md:pb-8 md:pt-8">
+          {children}
+        </main>
       </div>
     </div>
   );

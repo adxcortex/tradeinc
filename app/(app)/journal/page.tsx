@@ -62,16 +62,16 @@ export default async function JournalPage() {
       <TradeForm />
 
       <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-        <table className="w-full min-w-[900px] text-left text-sm">
+        <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-zinc-200 text-xs uppercase tracking-wide text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
               <th className="px-4 py-3 font-medium">Date</th>
               <th className="px-4 py-3 font-medium">Ticker</th>
-              <th className="px-4 py-3 font-medium">Kind</th>
-              <th className="px-4 py-3 font-medium">Setup</th>
+              <th className="hidden px-4 py-3 font-medium sm:table-cell">Kind</th>
+              <th className="hidden px-4 py-3 font-medium md:table-cell">Setup</th>
               <th className="px-4 py-3 font-medium">Entry</th>
-              <th className="px-4 py-3 font-medium">Stop</th>
-              <th className="px-4 py-3 font-medium">Target</th>
+              <th className="hidden px-4 py-3 font-medium sm:table-cell">Stop</th>
+              <th className="hidden px-4 py-3 font-medium md:table-cell">Target</th>
               <th className="px-4 py-3 font-medium">Result</th>
               <th className="px-4 py-3 font-medium">R</th>
               <th className="px-4 py-3 font-medium" />
@@ -89,18 +89,22 @@ export default async function JournalPage() {
               const { className, Icon } = RESULT_STYLE[t.result] ?? RESULT_STYLE.open;
               return (
                 <tr key={String(t._id)} className="border-b border-zinc-100 last:border-0 dark:border-zinc-900">
-                  <td className="px-4 py-3 tabular-nums">{new Date(t.date).toLocaleDateString("en-IN")}</td>
+                  <td className="px-4 py-3 whitespace-nowrap tabular-nums">
+                    {new Date(t.date).toLocaleDateString("en-IN")}
+                  </td>
                   <td className="px-4 py-3 font-medium">{t.ticker}</td>
-                  <td className="px-4 py-3 capitalize text-zinc-500 dark:text-zinc-400">{t.kind}</td>
-                  <td className="px-4 py-3 capitalize text-zinc-500 dark:text-zinc-400">
+                  <td className="hidden px-4 py-3 capitalize text-zinc-500 sm:table-cell dark:text-zinc-400">
+                    {t.kind}
+                  </td>
+                  <td className="hidden px-4 py-3 capitalize text-zinc-500 md:table-cell dark:text-zinc-400">
                     {t.setup.replace("_", " ")}
                   </td>
                   <td className="px-4 py-3 tabular-nums">{t.entry}</td>
-                  <td className="px-4 py-3 tabular-nums">{t.stop}</td>
-                  <td className="px-4 py-3 tabular-nums">{t.target ?? "—"}</td>
+                  <td className="hidden px-4 py-3 tabular-nums sm:table-cell">{t.stop}</td>
+                  <td className="hidden px-4 py-3 tabular-nums md:table-cell">{t.target ?? "—"}</td>
                   <td className={`px-4 py-3 font-medium ${className}`}>
-                    <span className="inline-flex items-center gap-1.5">
-                      <Icon className="h-3.5 w-3.5" aria-hidden />
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                      <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden />
                       {t.result}
                     </span>
                   </td>

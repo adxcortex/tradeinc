@@ -49,7 +49,7 @@ export function TabBarNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 flex items-stretch gap-1 border-t border-zinc-200 bg-white/95 px-2 py-1.5 backdrop-blur md:hidden dark:border-zinc-800 dark:bg-zinc-950/95">
+    <nav className="fixed inset-x-0 bottom-0 z-20 flex items-stretch gap-1 border-t border-zinc-200 bg-white/95 px-2 pt-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom))] backdrop-blur md:hidden dark:border-zinc-800 dark:bg-zinc-950/95">
       {NAV.map(({ href, label, icon: Icon }) => {
         const active = isActivePath(pathname, href);
         return (

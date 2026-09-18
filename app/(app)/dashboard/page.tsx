@@ -150,16 +150,16 @@ export default async function DashboardPage() {
           </Link>
         </div>
         <div className="mt-4 overflow-x-auto rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-zinc-200 text-xs uppercase tracking-wide text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
                 <th className="px-4 py-3 font-medium">Trader</th>
-                <th className="px-4 py-3 font-medium">Closed trades</th>
+                <th className="px-4 py-3 font-medium">Trades</th>
                 <th className="px-4 py-3 font-medium">Win rate</th>
-                <th className="px-4 py-3 font-medium">Avg win (R)</th>
-                <th className="px-4 py-3 font-medium">Avg loss (R)</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">Avg win (R)</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">Avg loss (R)</th>
                 <th className="px-4 py-3 font-medium">Expectancy (R)</th>
-                <th className="px-4 py-3 font-medium">Profit factor</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">Profit factor</th>
               </tr>
             </thead>
             <tbody>
@@ -171,16 +171,16 @@ export default async function DashboardPage() {
                     <td className="px-4 py-3">
                       <span className="inline-flex items-center gap-1.5">
                         <span
-                          className="inline-block h-2 w-2 rounded-full"
+                          className="inline-block h-2 w-2 shrink-0 rounded-full"
                           style={{ backgroundColor: seriesVar(user.colorSlot) }}
                         />
-                        {user.name}
+                        <span className="truncate">{user.name}</span>
                       </span>
                     </td>
                     <td className="px-4 py-3 tabular-nums">{t.total}</td>
                     <td className="px-4 py-3 tabular-nums">{t.total ? `${t.winRate}%` : "—"}</td>
-                    <td className="px-4 py-3 tabular-nums">{t.total ? t.avgWin : "—"}</td>
-                    <td className="px-4 py-3 tabular-nums">{t.total ? t.avgLoss : "—"}</td>
+                    <td className="hidden px-4 py-3 tabular-nums sm:table-cell">{t.total ? t.avgWin : "—"}</td>
+                    <td className="hidden px-4 py-3 tabular-nums sm:table-cell">{t.total ? t.avgLoss : "—"}</td>
                     <td className="px-4 py-3">
                       {t.total ? (
                         <span
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
                         "—"
                       )}
                     </td>
-                    <td className="px-4 py-3 tabular-nums">{t.profitFactor ?? "—"}</td>
+                    <td className="hidden px-4 py-3 tabular-nums sm:table-cell">{t.profitFactor ?? "—"}</td>
                   </tr>
                 );
               })}
